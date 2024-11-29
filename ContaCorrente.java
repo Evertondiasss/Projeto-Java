@@ -1,22 +1,31 @@
-public class ContaCorrente extends Conta {
-    private double limite;
+public class ContaCorrente implements OperacaoBancaria {
+    private int numeroConta;
+    private Cliente cliente;
+    private double saldo;
 
-    public ContaCorrente(int numeroConta, Cliente cliente, double saldoInicial) {
-        super(numeroConta, cliente, saldoInicial);
-        this.limite = 1000.0;  // Limite padrão de R$1000
+    public ContaCorrente(int numeroConta, Cliente cliente, double saldo) {
+        this.numeroConta = numeroConta;
+        this.cliente = cliente;
+        this.saldo = saldo;
+    }
+
+    @Override
+    public void depositar(double valor) {
+        saldo += valor;
+        System.out.println("Depósito realizado com sucesso na Conta Corrente.");
     }
 
     @Override
     public void sacar(double valor) {
-        if (valor <= getSaldo() + limite && valor > 0) {
-            super.sacar(valor);
+        if (valor <= saldo) {
+            saldo -= valor;
+            System.out.println("Saque realizado com sucesso na Conta Corrente.");
         } else {
-            System.out.println("Saldo insuficiente, incluindo limite.");
+            System.out.println("Saldo insuficiente para saque.");
         }
     }
 
-    @Override
-    public String getTipoConta() {
-        return "Corrente";  // Tipo da conta
+    public double getSaldo() {
+        return saldo;
     }
 }
